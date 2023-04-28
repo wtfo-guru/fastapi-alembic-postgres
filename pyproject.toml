@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "fastapi-alembic-postgres"
+version = "0.1.0"
+description = ""
+authors = ["Quien Sabe <qs5779@mail.com>"]
+readme = "README.md"
+packages = [{include = "fap"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlalchemy = {extras = ["mypy"], version = "^2.0.11"}
+alembic = "^1.10.4"
+fastapi = "^0.95.1"
+python-dotenv = "^1.0.0"
+loguru = "^0.7.0"
+pydantic = {extras = ["dotenv", "mypy"], version = "^1.10.7"}
+psycopg2 = "^2.9.6"
+
+
+[tool.poetry.group.test.dependencies]
+isort = "^5.12.0"
+black = "^23.3.0"
+pytest = "^7.3.1"
+wemake-python-styleguide = "^0.17.0"
+loguru-mypy = "^0.0.4"
+
+[tool.isort]
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

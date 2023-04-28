@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  db:
+    container_name: fap_testdb
+    image: postgres:14.5-alpine
+    restart: no
+    environment:
+      POSTGRES_DB: testsuite
+      POSTGRES_PASSWORD: secret
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: dbo
+    ports:
+      - "5432:5432"
+    # env_file:
+    #   - .env
+    volumes:
+      - ~/.cache/testdbs/fap_testdbs:/var/lib/postgresql/data:cached
+
+  adminer:
+    image: adminer-fap_testdb
+    restart: no
+    ports:
+      - 8080:8080
