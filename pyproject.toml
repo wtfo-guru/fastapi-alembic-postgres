@@ -15,6 +15,7 @@ python-dotenv = "^1.0.0"
 loguru = "^0.7.0"
 pydantic = {extras = ["dotenv", "mypy"], version = "^1.10.7"}
 psycopg2 = "^2.9.6"
+uvicorn = "^0.22.0"
 
 
 [tool.poetry.group.test.dependencies]

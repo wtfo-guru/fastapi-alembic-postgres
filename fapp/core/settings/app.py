@@ -19,14 +19,14 @@ class AppSettings(BaseAppSettings):
     title: str = "FastAPI example application"
     version: str = "0.1.0-dev1"
 
-    database_url: PostgresDsn = PostgresDsn(getenv("DATABASE_URL", "undefined"))
+    database_url: PostgresDsn
 
     max_connection_count: int = 10
     min_connection_count: int = 10
 
     secret_key: SecretStr = SecretStr(getenv("SECRET_KEY", "CodE1redAlertIamSecret"))
 
-    api_prefix: str = "/api"
+    api_prefix: str = "/api/v1"
 
     jwt_token_prefix: str = "Token"
 
