@@ -1,6 +1,6 @@
 SHELL:=/usr/bin/env bash
 
-.PHONY: format mypy flake lint sunit unit package test
+.PHONY: format mypy flake lint sunit unit package revision test
 
 format:
 	poetry run isort fapp tests
@@ -28,6 +28,9 @@ package:
 	# poetry run safety check --full-report
 
 test: lint package unit
+
+revision:
+	@echo "not executed: poetry run alembic revision --autogenerate -m your_message"
 
 .PHONY: clean clean-build clean-pyc clean-test
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
