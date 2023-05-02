@@ -6,8 +6,8 @@ from typing import Any, Dict, List, Tuple
 from loguru import logger
 from pydantic import PostgresDsn, SecretStr
 
-from fapp.core.logging import InterceptHandler
-from fapp.core.settings.base import BaseAppSettings
+from app.core.logging import InterceptHandler
+from app.core.settings.base import BaseAppSettings
 
 
 class AppSettings(BaseAppSettings):
@@ -19,12 +19,13 @@ class AppSettings(BaseAppSettings):
     title: str = "FastAPI example application"
     version: str = "0.1.0-dev1"
 
-    database_url: PostgresDsn
+    # database_url: PostgresDsn
+    database_url: str
 
     max_connection_count: int = 10
     min_connection_count: int = 10
 
-    secret_key: SecretStr = SecretStr(getenv("SECRET_KEY", "CodE1redAlertIamSecret"))
+    secret_key: SecretStr
 
     api_prefix: str = "/api/v1"
 

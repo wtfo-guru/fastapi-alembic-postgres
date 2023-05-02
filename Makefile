@@ -3,14 +3,14 @@ SHELL:=/usr/bin/env bash
 .PHONY: format mypy flake lint sunit unit package revision test
 
 format:
-	poetry run isort fapp tests
-	poetry run black fapp tests
+	poetry run isort app tests
+	poetry run black app tests
 
 mypy:
-	poetry run mypy fapp tests
+	poetry run mypy app tests
 
 flake:
-	poetry run flake8 fapp tests
+	poetry run flake8 app tests
 
 lint: format mypy flake
 	# poetry run docr8 -q docs

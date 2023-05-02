@@ -1,9 +1,11 @@
 from os import environ
 
 import pytest
+
 # from asgi_lifespan import LifespanManager
 # from asyncpg.pool import Pool
 from fastapi import FastAPI
+
 # from httpx import AsyncClient
 
 # from app.db.repositories.articles import ArticlesRepository
@@ -18,9 +20,9 @@ environ["APP_ENV"] = "test"
 
 @pytest.fixture
 def app() -> FastAPI:
-    from app.main import get_application  # local import for testing purpose
+    from app.main import create_application  # local import for testing purpose
 
-    return get_application()
+    return create_application()
 
 
 # @pytest.fixture
