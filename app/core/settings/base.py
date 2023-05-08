@@ -1,5 +1,4 @@
 from enum import Enum
-from os import getenv
 
 from pydantic import BaseSettings
 

@@ -1,10 +1,9 @@
 import logging
 import sys
-from os import getenv
 from typing import Any, Dict, List, Tuple
 
 from loguru import logger
-from pydantic import PostgresDsn, SecretStr
+from pydantic import SecretStr
 
 from app.core.logging import InterceptHandler
 from app.core.settings.base import BaseAppSettings
