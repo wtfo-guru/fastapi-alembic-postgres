@@ -1,20 +1,12 @@
-from sqlalchemy import Integer, String, Column, Boolean
-from sqlalchemy.orm import relationship
+from sqlalchemy import Boolean, Column, Integer, String
 
-from app.db.base_class import Base
+from app.db.base_class import KCHARS256, Base
 
-KMAX256 = 256
 
 class User(Base):
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(KMAX256), nullable=True)
-    password = Column(String(KMAX256), nullable=True)
-    email = Column(String, index=True, nullable=False)
+    username = Column(String(KCHARS256), nullable=False)
+    password = Column(String(KCHARS256), nullable=False)
+    email = Column(String, nullable=True)
     is_superuser = Column(Boolean, default=False)
-    authenticated = Column(Boolean, default=False)
-    recipes = relationship(
-        "Recipe",
-        cascade="all,delete-orphan",
-        back_populates="submitter",
-        uselist=True,
-    )
+    is_authenticated = Column(Boolean, default=False)

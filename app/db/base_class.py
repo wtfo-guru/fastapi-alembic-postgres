@@ -2,6 +2,10 @@ import typing as ty
 
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
 
+KCHARS30 = 30
+KCHARS39 = 39
+KCHARS256 = 256
+
 class_registry: ty.Dict = {}  # type: ignore [type-arg]
 
 

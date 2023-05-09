@@ -4,15 +4,17 @@ from pydantic import BaseModel, EmailStr
 
 
 class UserBase(BaseModel):
-    first_name: Optional[str]
-    surname: Optional[str]
+    username: Optional[str]
+    password: Optional[str]
     email: Optional[EmailStr] = None
     is_superuser: bool = False
+    is_authenticated: bool = False
 
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
-    email: EmailStr
+    username: str
+    password: str
 
 
 # Properties to receive via API on update
