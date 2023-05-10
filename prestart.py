@@ -9,6 +9,8 @@ from app.main import ROOT
 
 alembic_cfg = Config(ROOT / "alembic.ini")
 
-subprocess.run([sys.executable, "./app/backend_pre_start.py"])
+sys.path.append(ROOT)
+
+subprocess.run([sys.executable, "-m", "app.backend_pre_start"])
 command.upgrade(alembic_cfg, "head")
-subprocess.run([sys.executable, "./app/initial_data.py"])
+subprocess.run([sys.executable, "-m", "app.initial_data"])

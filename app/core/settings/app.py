@@ -1,9 +1,9 @@
 import logging
 import sys
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 from loguru import logger
-from pydantic import SecretStr
+from pydantic import AnyHttpUrl, SecretStr, validator
 
 from app.core.logging import InterceptHandler
 from app.core.settings.base import BaseAppSettings
@@ -20,6 +20,7 @@ class AppSettings(BaseAppSettings):
 
     # database_url: PostgresDsn
     database_url: str
+    first_superuser: str
 
     max_connection_count: int = 10
     min_connection_count: int = 10
@@ -27,6 +28,21 @@ class AppSettings(BaseAppSettings):
     secret_key: SecretStr
 
     api_prefix: str = "/api/v1"
+    # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
+    # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
+    # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
+    backend_cores_origins: List[AnyHttpUrl] = []
+
+    @validator("backend_cores_origins", pre=True)  # 3
+    def assemble_cors_origins(
+        cls,  # noqa: N805
+        vv: Union[str, List[str]],
+    ) -> Union[List[str], str]:
+        if isinstance(vv, str) and not vv.startswith("["):
+            return [ii.strip() for ii in vv.split(",")]
+        elif isinstance(vv, (list, str)):
+            return vv
+        raise ValueError(vv)
 
     jwt_token_prefix: str = "Token"
 

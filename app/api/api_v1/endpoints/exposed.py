@@ -2,10 +2,10 @@ from typing import Dict
 
 from fastapi import APIRouter, status
 
-exposed = APIRouter()
+router = APIRouter()
 
 
-@exposed.get("/", status_code=status.HTTP_200_OK)
+@router.get("/", status_code=status.HTTP_200_OK)
 def hello_world() -> Dict[str, str]:
     """
     The root route which returns a JSON response.
@@ -17,7 +17,7 @@ def hello_world() -> Dict[str, str]:
     return {"message": "Hello, World!"}
 
 
-@exposed.get("/healthcheck", status_code=status.HTTP_200_OK)
+@router.get("/healthcheck", status_code=status.HTTP_200_OK)
 def perform_healthcheck() -> Dict[str, str]:
     """
     Simple route for the GitHub Actions to healthcheck on.

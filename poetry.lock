@@ -185,6 +185,27 @@ files = [
 ]
 
 [[package]]
+name = "dnspython"
+version = "2.3.0"
+description = "DNS toolkit"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+files = [
+    {file = "dnspython-2.3.0-py3-none-any.whl", hash = "sha256:89141536394f909066cabd112e3e1a37e4e654db00a25308b0f130bc3152eb46"},
+    {file = "dnspython-2.3.0.tar.gz", hash = "sha256:224e32b03eb46be70e12ef6d64e0be123a64e621ab4c0822ff6d450d52a540b9"},
+]
+
+[package.extras]
+curio = ["curio (>=1.2,<2.0)", "sniffio (>=1.1,<2.0)"]
+dnssec = ["cryptography (>=2.6,<40.0)"]
+doh = ["h2 (>=4.1.0)", "httpx (>=0.21.1)", "requests (>=2.23.0,<3.0.0)", "requests-toolbelt (>=0.9.1,<0.11.0)"]
+doq = ["aioquic (>=0.9.20)"]
+idna = ["idna (>=2.1,<4.0)"]
+trio = ["trio (>=0.14,<0.23)"]
+wmi = ["wmi (>=1.5.1,<2.0.0)"]
+
+[[package]]
 name = "docutils"
 version = "0.19"
 description = "Docutils -- Python Documentation Utilities"
@@ -195,6 +216,22 @@ files = [
     {file = "docutils-0.19-py3-none-any.whl", hash = "sha256:5e1de4d849fee02c63b040a4a3fd567f4ab104defd8a5511fbbc24a8a017efbc"},
     {file = "docutils-0.19.tar.gz", hash = "sha256:33995a6753c30b7f577febfc2c50411fec6aac7f7ffeb7c4cfe5991072dcf9e6"},
 ]
+
+[[package]]
+name = "email-validator"
+version = "2.0.0.post2"
+description = "A robust email address syntax and deliverability validation library."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "email_validator-2.0.0.post2-py3-none-any.whl", hash = "sha256:2466ba57cda361fb7309fd3d5a225723c788ca4bbad32a0ebd5373b99730285c"},
+    {file = "email_validator-2.0.0.post2.tar.gz", hash = "sha256:1ff6e86044200c56ae23595695c54e9614f4a9551e0e393614f764860b3d7900"},
+]
+
+[package.dependencies]
+dnspython = ">=2.0.0"
+idna = ">=2.0.0"
 
 [[package]]
 name = "eradicate"
@@ -632,6 +669,24 @@ plugins = ["setuptools"]
 requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
+name = "jinja2"
+version = "3.1.2"
+description = "A very fast and expressive template engine."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "Jinja2-3.1.2-py3-none-any.whl", hash = "sha256:6088930bfe239f0e6710546ab9c19c9ef35e29792895fed6e6e31a023a182a61"},
+    {file = "Jinja2-3.1.2.tar.gz", hash = "sha256:31351a702a408a9e7595a8fc6150fc3f43bb6bf7e319770cbc0db9df9437e852"},
+]
+
+[package.dependencies]
+MarkupSafe = ">=2.0"
+
+[package.extras]
+i18n = ["Babel (>=2.7)"]
+
+[[package]]
 name = "loguru"
 version = "0.7.0"
 description = "Python logging made (stupidly) simple"
@@ -1018,6 +1073,7 @@ files = [
 ]
 
 [package.dependencies]
+email-validator = {version = ">=1.0.3", optional = true, markers = "extra == \"email\""}
 python-dotenv = {version = ">=0.10.4", optional = true, markers = "extra == \"dotenv\""}
 typing-extensions = ">=4.2.0"
 
@@ -1340,6 +1396,21 @@ files = [
 pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 
 [[package]]
+name = "tenacity"
+version = "8.2.2"
+description = "Retry code until it succeeds"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "tenacity-8.2.2-py3-none-any.whl", hash = "sha256:2f277afb21b851637e8f52e6a613ff08734c347dc19ade928e519d7d2d8569b0"},
+    {file = "tenacity-8.2.2.tar.gz", hash = "sha256:43af037822bd0029025877f3b2d97cc4d7bb0c2991000a3d59d71517c5c969e0"},
+]
+
+[package.extras]
+doc = ["reno", "sphinx", "tornado (>=4.5)"]
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -1433,4 +1504,4 @@ dev = ["black (>=19.3b0)", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "f2cd62ec70cc4f3f6cbe64e98639c086a034325de8da44c8fe59e5a6e37984cf"
+content-hash = "1acad6cfd93b8420e49bcb0b94df415b2760152ed1fb1a39f3caf46a4f0e3a79"
