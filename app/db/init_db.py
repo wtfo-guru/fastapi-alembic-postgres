@@ -5,6 +5,7 @@ from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
 from app import crud, schemas
+from app.core.hashing import Hasher
 
 logger = logging.getLogger(__name__)
 
@@ -52,7 +53,7 @@ def init_db(db: Session, fsu: str) -> None:  # noqa: WPS210
             else:
                 user_in = schemas.UserCreate(
                     username=username,
-                    password=password,  # TODO: encrypt the password
+                    password=Hasher.get_password_hash(password),
                     email=email,
                     is_superuser=True,
                 )

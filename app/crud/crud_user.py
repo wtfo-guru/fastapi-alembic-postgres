@@ -2,6 +2,7 @@ from typing import Any, Dict, Optional, Union
 
 from sqlalchemy.orm import Session
 
+from app.core.hashing import Hasher
 from app.crud.base import CRUDBase
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
@@ -13,6 +14,14 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
 
     def get_by_name(self, db: Session, *, name: str) -> Optional[User]:
         return db.query(User).filter(User.username == name).first()
+
+    def create(self, db: Session, *, obj_in: UserCreate) -> User:
+        create_data = obj_in.dict()
+        create_data["password"] = Hasher.get_password_hash(obj_in.password)
+        db_obj = User(**create_data)
+        db.add(db_obj)
+        db.commit()
+        return db_obj
 
     def update(
         self,
@@ -26,6 +35,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
         else:
             update_data = obj_in.dict(exclude_unset=True)
 
+        update_data["passwords"] = Hasher.get_password_hash(update_data["passwords"])
         return super().update(db, db_obj=db_obj, obj_in=update_data)
 
     def is_superuser(self, user: User) -> bool:
