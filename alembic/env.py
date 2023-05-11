@@ -1,24 +1,12 @@
-import os
-import sys
 from logging.config import fileConfig
 
-from dotenv import load_dotenv
-from sqlalchemy import engine_from_config, pool
+from sqlalchemy import engine_from_config
+from sqlalchemy import pool
 
 from alembic import context
 
-app_env = os.getenv("APP_ENV", "")
-if app_env.startswith("prod"):
-    app_env_file = ".env.prod"
-elif app_env.startswith(""):
-    app_env_file = ".env.dev"
-else:
-    app_env_file = ".env"
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-load_dotenv(os.path.join(BASE_DIR, app_env_file))
-
-sys.path.append(BASE_DIR)
+from app.db.base import Base
+from app.db.session import SETTINGS
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -29,12 +17,13 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
+config.set_main_option("sqlalchemy.url", SETTINGS.database_url)
+
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from fapp.db import models
-target_metadata = models.Base.metadata
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

@@ -1,6 +1,6 @@
 import logging
 
-from fapp.core.settings.app import AppSettings
+from app.core.settings.app import AppSettings
 
 
 class DevAppSettings(AppSettings):

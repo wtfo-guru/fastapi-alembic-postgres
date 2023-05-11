@@ -1,16 +1,17 @@
 SHELL:=/usr/bin/env bash
+APP_ENV ?= test
 
-.PHONY: format mypy flake lint sunit unit package test
+.PHONY: format mypy flake lint sunit unit package revision test prestart
 
 format:
-	poetry run isort fapp tests
-	poetry run black fapp tests
+	poetry run isort app tests
+	poetry run black app tests
 
 mypy:
-	poetry run mypy fapp tests
+	poetry run mypy app tests
 
 flake:
-	poetry run flake8 fapp tests
+	poetry run flake8 app tests
 
 lint: format mypy flake
 	# poetry run docr8 -q docs
@@ -28,6 +29,12 @@ package:
 	# poetry run safety check --full-report
 
 test: lint package unit
+
+revision:
+	@echo "not executed: poetry run alembic revision --autogenerate -m your_message"
+
+prestart:
+	APP_ENV=$(APP_ENV) poetry run python prestart.py
 
 .PHONY: clean clean-build clean-pyc clean-test
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts

@@ -1,13 +1,12 @@
 import logging
 import sys
-from os import getenv
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, List, Tuple, Union
 
 from loguru import logger
-from pydantic import PostgresDsn, SecretStr
+from pydantic import AnyHttpUrl, SecretStr, validator
 
-from fapp.core.logging import InterceptHandler
-from fapp.core.settings.base import BaseAppSettings
+from app.core.logging import InterceptHandler
+from app.core.settings.base import BaseAppSettings
 
 
 class AppSettings(BaseAppSettings):
@@ -19,14 +18,31 @@ class AppSettings(BaseAppSettings):
     title: str = "FastAPI example application"
     version: str = "0.1.0-dev1"
 
-    database_url: PostgresDsn = PostgresDsn(getenv("DATABASE_URL", "undefined"))
+    # database_url: PostgresDsn
+    database_url: str
+    first_superuser: str
 
     max_connection_count: int = 10
     min_connection_count: int = 10
 
-    secret_key: SecretStr = SecretStr(getenv("SECRET_KEY", "CodE1redAlertIamSecret"))
+    secret_key: SecretStr
 
-    api_prefix: str = "/api"
+    api_prefix: str = "/api/v1"
+    # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins
+    # e.g: '["http://localhost", "http://localhost:4200", "http://localhost:3000", \
+    # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
+    backend_cores_origins: List[AnyHttpUrl] = []
+
+    @validator("backend_cores_origins", pre=True)  # 3
+    def assemble_cors_origins(
+        cls,  # noqa: N805
+        vv: Union[str, List[str]],
+    ) -> Union[List[str], str]:
+        if isinstance(vv, str) and not vv.startswith("["):
+            return [ii.strip() for ii in vv.split(",")]
+        elif isinstance(vv, (list, str)):
+            return vv
+        raise ValueError(vv)
 
     jwt_token_prefix: str = "Token"
 
