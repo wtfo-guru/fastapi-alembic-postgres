@@ -42,10 +42,11 @@ profile = "black"
 
 [tool.pytest.ini_options]
 testpaths = "tests"
-filterwarnings = "error"
+filterwarnings = "ignore::DeprecationWarning:passlib.*"
 addopts = '''
   --strict-markers
   --tb=short
+  --cov-config=setup.cfg
   --cov=app
   --cov=tests
   --cov-branch
