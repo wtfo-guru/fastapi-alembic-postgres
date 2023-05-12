@@ -1,95 +1,49 @@
+# from unittest.mock import MagicMock
 from os import environ
+from typing import Generator
 
 import pytest
-
-# from asgi_lifespan import LifespanManager
-# from asyncpg.pool import Pool
 from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
-# from httpx import AsyncClient
+from app.core.config import get_app_settings
+from app.core.settings.app import AppSettings
+from app.main import app
 
-# from app.db.repositories.articles import ArticlesRepository
-# from app.db.repositories.users import UsersRepository
-# from app.models.domain.articles import Article
-# from app.models.domain.users import UserInDB
-# from app.services import jwt
-# from tests.fake_asyncpg_pool import FakeAsyncPGPool
+# async def override_reddit_dependency() -> MagicMock:
+#     mock = MagicMock()
+#     reddit_stub = {
+#         "recipes": [
+#             "2085: the best chicken wings ever!! (https://i.redd.it/5iabdxh1jq381.jpg)",
+#         ],
+#         "easyrecipes": [
+#             "74: Instagram accounts that post easy recipes? (https://www.reddit.com/r/easyrecipes/comments/rcluhd/instagram_accounts_that_post_easy_recipes/)",
+#         ],
+#         "TopSecretRecipes": [
+#             "238: Halal guys red sauce - looking for recipe. Tried a recipe from a google search and it wasn’t nearly spicy enough. (https://i.redd.it/516yb30q9u381.jpg)",
+#             "132: Benihana Diablo Sauce - THE AUTHENTIC RECIPE! (https://www.reddit.com/r/TopSecretRecipes/comments/rbcirf/benihana_diablo_sauce_the_authentic_recipe/)",
+#         ],
+#     }
+#     mock.get_reddit_top.return_value = reddit_stub
+#     return mock
+
 
 environ["APP_ENV"] = "test"
 
 
 @pytest.fixture
-def app() -> FastAPI:
-    from app.main import create_application  # local import for testing purpose
-
-    return create_application()
+def appl() -> Generator[FastAPI, None, None]:
+    yield app
 
 
-# @pytest.fixture
-# async def initialized_app(app: FastAPI) -> FastAPI:
-#     async with LifespanManager(app):
-#         app.state.pool = await FakeAsyncPGPool.create_pool(app.state.pool)
-#         yield app
+@pytest.fixture
+def client() -> Generator[TestClient, None, None]:
+    with TestClient(app) as testclient:
+        # app.dependency_overrides[deps.get_reddit_client] = override_reddit_dependency
+        yield testclient
+        app.dependency_overrides = {}
 
 
-# @pytest.fixture
-# def pool(initialized_app: FastAPI) -> Pool:
-#     return initialized_app.state.pool
-
-
-# @pytest.fixture
-# async def client(initialized_app: FastAPI) -> AsyncClient:
-#     async with AsyncClient(
-#         app=initialized_app,
-#         base_url="http://testserver",
-#         headers={"Content-Type": "application/json"},
-#     ) as client:
-#         yield client
-
-
-# @pytest.fixture
-# def authorization_prefix() -> str:
-#     from app.core.config import get_app_settings
-
-#     settings = get_app_settings()
-#     jwt_token_prefix = settings.jwt_token_prefix
-
-#     return jwt_token_prefix
-
-
-# @pytest.fixture
-# async def test_user(pool: Pool) -> UserInDB:
-#     async with pool.acquire() as conn:
-#         return await UsersRepository(conn).create_user(
-#             email="test@test.com", password="password", username="username"
-#         )
-
-
-# @pytest.fixture
-# async def test_article(test_user: UserInDB, pool: Pool) -> Article:
-#     async with pool.acquire() as connection:
-#         articles_repo = ArticlesRepository(connection)
-#         return await articles_repo.create_article(
-#             slug="test-slug",
-#             title="Test Slug",
-#             description="Slug for tests",
-#             body="Test " * 100,
-#             author=test_user,
-#             tags=["tests", "testing", "pytest"],
-#         )
-
-
-# @pytest.fixture
-# def token(test_user: UserInDB) -> str:
-#     return jwt.create_access_token_for_user(test_user, environ["SECRET_KEY"])
-
-
-# @pytest.fixture
-# def authorized_client(
-#     client: AsyncClient, token: str, authorization_prefix: str
-# ) -> AsyncClient:
-#     client.headers = {
-#         "Authorization": f"{authorization_prefix} {token}",
-#         **client.headers,
-#     }
-#     return client
+@pytest.fixture
+def settings() -> Generator[AppSettings, None, None]:
+    yield get_app_settings()

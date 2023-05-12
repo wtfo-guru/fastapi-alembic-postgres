@@ -1,6 +1,7 @@
 import typing as ty
 
-from sqlalchemy.ext.declarative import as_declarative, declared_attr
+from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.orm import as_declarative
 
 KCHARS30 = 30
 KCHARS39 = 39

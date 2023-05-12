@@ -1,7 +1,7 @@
 SHELL:=/usr/bin/env bash
 APP_ENV ?= test
 
-.PHONY: format mypy flake lint sunit unit package revision test prestart
+.PHONY: format mypy flake lint sunit unit package revision test stest prestart
 
 format:
 	poetry run isort app tests
@@ -25,10 +25,11 @@ unit:
 package:
 	poetry check
 	poetry run pip check
-	# re-enable when safety supports packaging ^22.0
-	# poetry run safety check --full-report
+	poetry run safety check -i 51499 --short-report
 
 test: lint package unit
+
+stest: lint package sunit
 
 revision:
 	@echo "not executed: poetry run alembic revision --autogenerate -m your_message"

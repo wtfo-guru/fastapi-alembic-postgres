@@ -10,10 +10,13 @@ from app.db.session import SETTINGS
 from app.models.user import User
 
 JWTPayloadMapping = MutableMapping[
-    str, Union[datetime, bool, str, List[str], List[int]]
+    str,
+    Union[datetime, bool, str, List[str], List[int]],
 ]
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{SETTINGS.api_prefix}/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="{0}/auth/login".format(SETTINGS.api_prefix),
+)
 
 
 def authenticate(
@@ -31,7 +34,7 @@ def authenticate(
 
 
 def create_access_token(*, sub: str) -> str:
-    return _create_token(
+    return _create_token(  # noqa: S106
         token_type="access_token",
         lifetime=timedelta(minutes=SETTINGS.access_token_expire_minutes),
         sub=sub,
@@ -50,13 +53,13 @@ def _create_token(
     # https://datatracker.ietf.org/doc/html/rfc7519#section-4.1.3
     # The "exp" (expiration time) claim identifies the expiration time on
     # or after which the JWT MUST NOT be accepted for processing
-    payload["exp"] = expire
+    payload["exp"] = str(expire)
 
     # The "iat" (issued at) claim identifies the time at which the
     # JWT was issued.
-    payload["iat"] = datetime.utcnow()
+    payload["iat"] = str(datetime.utcnow())
 
     # The "sub" (subject) claim identifies the principal that is the
     # subject of the JWT
     payload["sub"] = str(sub)
-    return jwt.encode(payload, SETTINGS.secret_key, algorithm=SETTINGS.algorithm)
+    return jwt.encode(payload, str(SETTINGS.secret_key), algorithm=SETTINGS.algorithm)

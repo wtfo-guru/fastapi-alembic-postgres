@@ -6,7 +6,7 @@ router = APIRouter()
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def hello_world() -> Dict[str, str]:
+async def hello_world() -> Dict[str, str]:
     """
     The root route which returns a JSON response.
     The JSON response is delivered as:
@@ -30,7 +30,7 @@ def perform_healthcheck() -> Dict[str, str]:
     case something goes south.
     Additionally, it also returns a JSON response in the form of:
     {
-      'healtcheck': 'Everything OK!'
+      'healthcheck': 'Everything OK!'
     }
     """
     return {"healthcheck": "Everything OK!"}
