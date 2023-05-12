@@ -1,2 +1,2 @@
-# fastapi-alembic-postgres
-Fastapi app with a alembic and postgres support.
+# fastapi-alembic-sqlalchemy
+Fastapi app with a alembic and sqlite support.

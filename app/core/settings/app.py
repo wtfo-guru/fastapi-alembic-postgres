@@ -25,7 +25,11 @@ class AppSettings(BaseAppSettings):
     max_connection_count: int = 10
     min_connection_count: int = 10
 
+    # 60 minutes * 24 hours * 8 days = 8 days
+    access_token_expire_minutes: int = 60 * 24 * 8
+
     secret_key: SecretStr
+    algorithm: str = "HS256"
 
     api_prefix: str = "/api/v1"
     # BACKEND_CORS_ORIGINS is a JSON-formatted list of origins

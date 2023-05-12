@@ -1,7 +1,5 @@
 import logging
 
-from pydantic import SecretStr
-
 from app.core.settings.app import AppSettings
 
 
@@ -10,8 +8,7 @@ class TestAppSettings(AppSettings):
 
     title: str = "Test FastAPI example application"
 
-    secret_key: SecretStr
-
+    # secret_key: SecretStr
     # database_url: PostgresDsn
     max_connection_count: int = 5
     min_connection_count: int = 5
