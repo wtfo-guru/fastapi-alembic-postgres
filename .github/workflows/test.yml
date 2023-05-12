@@ -25,26 +25,26 @@ jobs:
       matrix:
         python-version: ['3.10', '3.11']
     # Service containers to run with `runner-job`
-    services:
-      # Label used to access the service container
-      postgres:
-        # Docker Hub image
-        image: postgres:14.5-alpine
-        # Provide the password for postgres
-        env:
-          POSTGRES_DB: quotes
-          POSTGRES_PASSWORD: secret
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: dbo
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          # Maps tcp port 5432 on service container to the host
-          - 5432:5432
+    # services:
+    #   # Label used to access the service container
+    #   postgres:
+    #     # Docker Hub image
+    #     image: postgres:14.5-alpine
+    #     # Provide the password for postgres
+    #     env:
+    #       POSTGRES_DB: quotes
+    #       POSTGRES_PASSWORD: secret
+    #       POSTGRES_PORT: 5432
+    #       POSTGRES_USER: dbo
+    #     # Set health checks to wait until postgres has started
+    #     options: >-
+    #       --health-cmd pg_isready
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
+    #     ports:
+    #       # Maps tcp port 5432 on service container to the host
+    #       - 5432:5432
 
     steps:
     - uses: actions/checkout@v3
@@ -68,7 +68,14 @@ jobs:
         poetry install
 
     - name: Run checks
-      run: GITHUB_ACTION=yes make test
+      env:
+        APP_ENV: test
+        FIRST_SUPERUSER: "admin:secret"
+        DATABASE_URL: "sqlite:///dbtest.db"
+        SECRET_KEY: 076B50981E6BAAD34E86D5D632AA9D6AB0D79F3E757928B2C161458DE20B7DC2
+      run: |
+        make prestart
+        make test
 
     # Upload coverage to codecov: https://codecov.io/
     - name: Upload coverage to Codecov
