@@ -5,6 +5,7 @@ from typing import Generator
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
+from httpx import AsyncClient
 
 from app.core.config import get_app_settings
 from app.core.settings.app import AppSettings
@@ -47,3 +48,12 @@ def client() -> Generator[TestClient, None, None]:
 @pytest.fixture
 def settings() -> Generator[AppSettings, None, None]:
     yield get_app_settings()
+
+@pytest.fixture
+async def aclient(initialized_app: FastAPI) -> AsyncClient:
+    async with AsyncClient(
+        app=initialized_app,
+        base_url="http://testserver",
+        headers={"Content-Type": "application/json"},
+    ) as client:
+        yield client
