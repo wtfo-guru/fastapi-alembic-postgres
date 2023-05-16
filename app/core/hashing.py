@@ -1,5 +1,7 @@
 import bcrypt
 
+KUTF8 = "utf-8"
+
 
 class Hasher:
     @classmethod
@@ -14,8 +16,8 @@ class Hasher:
             bool: True if the password matches the hashed password
         """
         return bcrypt.checkpw(
-            plain_password.encode("utf-8"),
-            hashed_password.encode("utf-8"),
+            plain_password.encode(KUTF8),
+            hashed_password.encode(KUTF8),
         )
 
     @classmethod
@@ -28,4 +30,4 @@ class Hasher:
         Returns:
             str: hashed password
         """
-        return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+        return bcrypt.hashpw(password.encode(KUTF8), bcrypt.gensalt()).decode(KUTF8)
