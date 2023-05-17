@@ -9,8 +9,8 @@ packages = [{include = "app"}]
 [tool.poetry.dependencies]
 python = "^3.10"
 sqlalchemy = {extras = ["asyncio", "mypy"], version = "^2.0.13"}
-alembic = "^1.10.4"
-fastapi = "^0.95.1"
+alembic = "^1.11.0"
+fastapi = "^0.95.2"
 python-dotenv = "^1.0.0"
 loguru = "^0.7.0"
 pydantic = {extras = ["dotenv", "email", "mypy"], version = "^1.10.7"}
