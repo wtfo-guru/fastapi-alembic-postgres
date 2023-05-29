@@ -13,7 +13,7 @@ alembic = "^1.11.0"
 fastapi = "^0.95.2"
 python-dotenv = "^1.0.0"
 loguru = "^0.7.0"
-pydantic = {extras = ["dotenv", "email", "mypy"], version = "^1.10.7"}
+pydantic = {extras = ["dotenv", "email", "mypy"], version = "^1.10.8"}
 psycopg2 = "^2.9.6"
 uvicorn = "^0.22.0"
 tenacity = "^8.2.2"
