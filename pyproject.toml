@@ -10,7 +10,7 @@ packages = [{include = "app"}]
 python = "^3.10"
 sqlalchemy = {extras = ["asyncio", "mypy"], version = "^2.0.13"}
 alembic = "^1.11.0"
-fastapi = "^0.95.2"
+fastapi = "^0.96.0"
 python-dotenv = "^1.0.0"
 loguru = "^0.7.0"
 pydantic = {extras = ["dotenv", "email", "mypy"], version = "^1.10.8"}
