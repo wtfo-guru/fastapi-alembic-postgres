@@ -1,15 +1,12 @@
-import pytest
 from fastapi import FastAPI
-from httpx import AsyncClient
+from fastapi.testclient import TestClient
 from starlette.status import HTTP_200_OK  # , HTTP_400_BAD_REQUEST
 
-pytestmark = pytest.mark.asyncio
 
-
-async def test_user_successful_login(appl: FastAPI, aclient: AsyncClient) -> None:
+def test_user_successful_login(appl: FastAPI, client: TestClient) -> None:
     login_json = {"user": {"email": "test@test.com", "password": "password"}}
 
-    response = await aclient.post(app.url_path_for("auth:login"), json=login_json)
+    response = client.post(appl.url_path_for("auth:login"), json=login_json)
     assert response.status_code == HTTP_200_OK
 
 
